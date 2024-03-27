@@ -24,20 +24,27 @@ public class TimetableService {
         for (int day = 0; day < 6; day++) { // Loop for 6 days of the week
             timetable.add("Day " + (day + 1) + ":");
 
-            for (int lecture = 0; lecture < 5; lecture++) { // 5 lectures per day
-                if (currentTime.isBefore(endTime)) {
+            for (int lecture = 0; lecture < 6; lecture++) { // 5 lectures per day
+                if (currentTime.isBefore(endTime) && !isBetween(currentTime, LocalTime.of(13, 0), LocalTime.of(14, 0))) {
                     String course = SampleData.getCourses().get(lecture);
                     String teacher = SampleData.getTeachers().get(random.nextInt(SampleData.getTeachers().size()));
-                    timetable.add("Lecture " + (lecture + 1) + ": " + course + " with " + teacher + " - " + currentTime + " - " + currentTime.plusHours(1));
+                    timetable.add("Slot " + (lecture + 1) + ": " + course + " with " + teacher + " - " + currentTime + " - " + currentTime.plusHours(1));
+                    currentTime = currentTime.plusHours(1);
+                }
+                else {
+                    timetable.add("Slot " + (lecture + 1) + ": " + "Break"+  " - " + currentTime + " - " + currentTime.plusHours(1));
                     currentTime = currentTime.plusHours(1);
                 }
             }
 
-            if (currentTime.isBefore(endTime)) { // 1 laboratory per day
+            if (currentTime.isBefore(endTime) && !isBetween(currentTime, LocalTime.of(13, 0), LocalTime.of(14, 0))) { // 1 laboratory per day
                 String laboratory = SampleData.getLaboratories().get(day % SampleData.getLaboratories().size());
                 String teacher = SampleData.getTeachers().get(random.nextInt(SampleData.getTeachers().size()));
                 timetable.add("Laboratory: " + laboratory + " with " + teacher + " - " + currentTime + " - " + currentTime.plusHours(2));
                 currentTime = currentTime.plusHours(2);
+            }
+            else {
+                currentTime = currentTime.plusHours(1);
             }
 
             // Reset currentTime for the next day
@@ -46,4 +53,9 @@ public class TimetableService {
 
         return timetable;
     }
+
+    private boolean isBetween(LocalTime time, LocalTime startTime, LocalTime endTime) {
+        return !time.isBefore(startTime) && time.isBefore(endTime);
+    }
+
 }

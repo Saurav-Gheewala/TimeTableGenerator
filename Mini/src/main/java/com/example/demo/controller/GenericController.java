@@ -5,6 +5,7 @@ import com.example.demo.requestModel.CourseRequest;
 import com.example.demo.requestModel.LabRequest;
 import com.example.demo.requestModel.TeacherRequest;
 import com.example.demo.service.GenericService;
+import com.example.demo.service.ShowService;
 import com.example.demo.service.TimetableService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,8 @@ public class GenericController   {
     GenericService genericService;
     @Autowired
     TimetableService timetableService;
+    @Autowired
+    ShowService showService;
     @PostMapping("/departments")
     public ResponseEntity<String> saveDepartment(@RequestBody Department department) {
         return genericService.saveDepartment(department);
@@ -62,4 +65,9 @@ public class GenericController   {
         return timetableService.createTimetable();
     }
 
+    @GetMapping("/data")
+    public ResponseEntity<TeacherWrapper> getSubjects()
+    {
+        return showService.showData();
+    }
 }
