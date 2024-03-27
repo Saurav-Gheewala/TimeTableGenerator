@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Data
-@NoArgsConstructor
+
 public class Teacher {
 
     @Id
@@ -30,4 +30,10 @@ public class Teacher {
             inverseJoinColumns = @JoinColumn(name = "laboratory_id")
     )
     private List<Laboratory> laboratoriesTaughtByTeacher;
+
+    public Teacher(String name, List<Course> coursesTaughtByTeacher, List<Laboratory> laboratoriesTaughtByTeacher) {
+        this.name = name;
+        this.coursesTaughtByTeacher = coursesTaughtByTeacher;
+        this.laboratoriesTaughtByTeacher = laboratoriesTaughtByTeacher;
+    }
 }

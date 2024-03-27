@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.*;
 import com.example.demo.requestModel.CourseRequest;
 import com.example.demo.requestModel.LabRequest;
+import com.example.demo.requestModel.TeacherRequest;
 import com.example.demo.service.GenericService;
 import com.example.demo.service.TimetableService;
 import org.slf4j.Logger;
@@ -51,7 +52,7 @@ public class GenericController   {
     }
 
     @PostMapping("/teachers")
-    public ResponseEntity<String> saveTeacher(@RequestBody Teacher teacher) {
+    public ResponseEntity<String> saveTeacher(@RequestBody TeacherRequest teacher) {
         return genericService.saveTeacher(teacher);
     }
 
